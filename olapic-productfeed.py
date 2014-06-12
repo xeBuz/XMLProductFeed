@@ -4,6 +4,7 @@
 from db import DatabaseManager
 import xml.etree.ElementTree as ET
 import argparse
+import os.path
 
 parser = argparse.ArgumentParser(description='XML Product Feed for Olapic')
 parser.add_argument('-i', '--input', action='store', dest='xml_file', default='example-product-feed.xml', help="XML file. Default: example-product-feed.xml")
@@ -15,6 +16,10 @@ args = parser.parse_args()
 def main():
     db = DatabaseManager(args.sqlite_file, args.keep)
     db.create_db()
+
+    if not os.path.isfile(args.xml_file):
+        print("The XML file does not exist")
+        exit(1)
 
     tree = ET.parse(args.xml_file)
     root = tree.getroot()
