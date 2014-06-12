@@ -1,0 +1,109 @@
+<?xml version="1.0"?>
+<xs:schema elementFormDefault="qualified" xmlns:xs="http://www.w3.org/2001/XMLSchema">
+	<xs:element name="Feed" type="FeedType"/>
+	<xs:complexType name="FeedType">
+		<xs:all>
+			<xs:element minOccurs="0" name="Categories" type="CategoriesType"/>
+			<xs:element minOccurs="0" name="Products" type="ProductsType"/>
+		</xs:all>
+		<xs:attribute name="name" type="xs:string" use="optional"/>
+	</xs:complexType>
+	<xs:complexType name="CategoriesType">
+		<xs:sequence>
+			<xs:element maxOccurs="unbounded" minOccurs="0" name="Category" type="CategoryType"/>
+		</xs:sequence>
+	</xs:complexType>
+	<xs:complexType name="CategoryType">
+		<xs:all>
+			<xs:element minOccurs="1" maxOccurs="1" name="Name" type="xs:string"/>
+			<xs:element minOccurs="0" name="CategoryUniqueID" type="UniqueIdType"/>
+			<xs:element minOccurs="0" name="CategoryParentID" type="UniqueIdType"/>
+			<xs:element minOccurs="0" name="CategoryUrl" type="xs:anyURI"/>
+		</xs:all>
+		<xs:attribute default="false" name="removed" type="xs:boolean" use="optional"/>
+		<xs:attribute default="false" name="disabled" type="xs:boolean"/>
+	</xs:complexType>
+	<xs:complexType name="ProductsType">
+		<xs:sequence>
+			<xs:element maxOccurs="unbounded" minOccurs="0" name="Product" type="ProductType"/>
+		</xs:sequence>
+	</xs:complexType>
+	<xs:complexType name="ProductType">
+		<xs:all>
+			<xs:element name="Name" type="NotEmptyString"/>
+			<xs:element name="ProductUniqueID" type="UniqueIdType"/>
+			<xs:element name="ProductUrl" type="xs:anyURI"/>
+			<xs:element name="ImageUrl" type="xs:anyURI"/>
+			<xs:element minOccurs="0" name="Description" type="xs:string"/>
+			<xs:element minOccurs="0" name="CategoryID" type="UniqueIdType"/>
+			<xs:element minOccurs="0" name="CategoriesID" type="CategoriesIDType"/>
+			<xs:element minOccurs="0" name="Price" type="DecimalPrice"/>
+			<xs:element minOccurs="0" name="Stock" type="xs:integer"/>
+			<xs:element minOccurs="0" name="Availability" type="xs:boolean"/>
+			<xs:element minOccurs="0" name="Color" type="xs:string"/>
+			<xs:element minOccurs="0" name="EAN" type="EanType"/>
+			<xs:element minOccurs="0" name="EANs" type="EansType"/>
+			<xs:element minOccurs="0" name="UPC" type="UpcType"/>
+			<xs:element minOccurs="0" name="UPCs" type="UpcsType"/>
+			<xs:element minOccurs="0" name="ISBN" type="IsbnsType"/>
+			<xs:element minOccurs="0" name="ISBNs" type="IsbnsType"/>
+			<xs:element minOccurs="0" name="ParentID" type="UniqueIdType"/>
+		</xs:all>
+		<xs:attribute default="false" name="removed" type="xs:boolean"/>
+		<xs:attribute default="false" name="disabled" type="xs:boolean"/>
+	</xs:complexType>
+	<xs:simpleType name="DecimalPrice">
+		<xs:restriction base="xs:decimal">
+			<xs:minInclusive value="0"/>
+		</xs:restriction>
+	</xs:simpleType>
+	<xs:simpleType name="UniqueIdType">
+		<xs:restriction base="xs:string">
+			<xs:pattern value="[\S]+"/>
+		</xs:restriction>
+	</xs:simpleType>
+	<xs:simpleType name="NotEmptyString">
+		<xs:restriction base="xs:string">
+		</xs:restriction>
+	</xs:simpleType>
+	<xs:complexType name="CategoriesIDType">
+		<xs:sequence>
+			<xs:element maxOccurs="unbounded" minOccurs="1" name="CategoryID" type="UniqueIdType"/>
+		</xs:sequence>
+	</xs:complexType>
+	<xs:complexType name="EansType">
+		<xs:sequence>
+			<xs:element maxOccurs="unbounded" minOccurs="1" name="EAN" type="EanType"/>
+		</xs:sequence>
+	</xs:complexType>
+	<xs:simpleType name="EanType">
+		<xs:restriction base="xs:string">
+			<xs:pattern value="[0-9]{8}"/>
+			<xs:pattern value="[0-9]{13}"/>
+			<xs:pattern value="[\S]+"/>
+		</xs:restriction>
+	</xs:simpleType>
+	<xs:complexType name="UpcsType">
+		<xs:sequence>
+			<xs:element maxOccurs="unbounded" minOccurs="1" name="UPC" type="UpcType"/>
+		</xs:sequence>
+	</xs:complexType>
+	<xs:simpleType name="UpcType">
+		<xs:restriction base="xs:string">
+			<xs:pattern value="[0-9]{6}"/>
+			<xs:pattern value="[0-9]{12}"/>
+			<xs:pattern value="[\S]+"/>
+		</xs:restriction>
+	</xs:simpleType>
+	<xs:complexType name="IsbnsType">
+		<xs:sequence>
+			<xs:element maxOccurs="unbounded" minOccurs="1" name="ISBN" type="IsbnType"/>
+		</xs:sequence>
+	</xs:complexType>
+	<xs:simpleType name="IsbnType">
+		<xs:restriction base="xs:string">
+			<xs:pattern value="[0-9]{8,12}[0-9X]"/>
+			<xs:pattern value="[\S]+"/>
+		</xs:restriction>
+	</xs:simpleType>
+</xs:schema>
